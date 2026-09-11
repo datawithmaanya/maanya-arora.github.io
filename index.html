@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maanya Arora — Data Analyst</title>
+<meta name="description" content="Maanya Arora — Aspiring Data Analyst. Python, SQL, data cleaning, EDA, and visualization, with real project work and industry certifications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14212E;
+    --paper:#E7ECEF;
+    --panel:#101A24;
+    --panel-line:#233242;
+    --text-on-dark:#EDF1F3;
+    --muted-on-dark:#8FA0AE;
+    --teal:#2FAF8B;
+    --amber:#E3A73E;
+    --line:#C7D0D6;
+    --muted:#5B6672;
+    --card:#F4F6F4;
+    --radius:3px;
+    --sidebar-w:320px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  a{color:inherit;}
+  h1,h2,h3{font-family:'Fraunces',serif; margin:0; font-weight:600;}
+  ::selection{background:var(--teal); color:#fff;}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:3px;}
+
+  /* ---------- Layout shell ---------- */
+  .shell{display:flex; min-height:100vh;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:var(--panel);
+    color:var(--text-on-dark);
+    position:fixed;
+    top:0; left:0; bottom:0;
+    padding:44px 34px;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;
+    z-index:40;
+    transition:transform .35s ease;
+  }
+  .mono-tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.03em;
+    color:var(--teal);
+  }
+  .mark{
+    width:52px; height:52px;
+    border:1px solid var(--panel-line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    color:var(--text-on-dark);
+    margin-bottom:22px;
+  }
+  .side-name{
+    font-size:30px;
+    line-height:1.12;
+    color:#fff;
+    margin-bottom:8px;
+  }
+  .side-role{
+    color:var(--muted-on-dark);
+    font-size:14.5px;
+    margin-bottom:28px;
+    max-width:23ch;
+  }
+  .contact-rows{
+    display:flex; flex-direction:column;
+    border-top:1px solid var(--panel-line);
+    margin-bottom:30px;
+  }
+  .contact-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--panel-line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+  }
+  .contact-row a{
+    color:var(--text-on-dark);
+    text-decoration:none;
+    word-break:break-all;
+  }
+  .contact-row a:hover{color:var(--teal);}
+  .copy-btn{
+    background:none; border:1px solid var(--panel-line);
+    color:var(--muted-on-dark);
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    padding:4px 7px;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:border-color .15s, color .15s;
+  }
+  .copy-btn:hover{border-color:var(--teal); color:var(--teal);}
+  .copy-btn.copied{border-color:var(--teal); color:var(--teal);}
+
+  nav.toc{display:flex; flex-direction:column; margin-top:auto;}
+  nav.toc a{
+    display:flex; align-items:baseline; gap:12px;
+    text-decoration:none;
+    padding:9px 0;
+    color:var(--muted-on-dark);
+    font-size:14px;
+    border-bottom:1px solid var(--panel-line);
+    transition:color .15s, padding-left .15s;
+  }
+  nav.toc a .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--panel-line);
+    width:18px;
+    flex-shrink:0;
+  }
+  nav.toc a:hover, nav.toc a.active{color:#fff; padding-left:4px;}
+  nav.toc a.active .num{color:var(--teal);}
+
+  .sidebar-footer{
+    margin-top:24px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--panel-line);
+  }
+
+  /* mobile top bar */
+  .topbar{display:none;}
+
+  /* ---------- Main content ---------- */
+  main{
+    margin-left:var(--sidebar-w);
+    flex:1;
+    max-width:840px;
+    padding:60px 56px 100px;
+  }
+  section{padding:52px 0; border-bottom:1px solid var(--line);}
+  section:first-of-type{padding-top:0;}
+  section:last-of-type{border-bottom:none;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:.02em;
+    margin-bottom:6px;
+  }
+  .eyebrow .idx{color:var(--teal);}
+  h2.sec-title{font-size:26px; margin-bottom:22px;}
+
+  /* ---- Hero / terminal ---- */
+  .hero{padding-top:0;}
+  .terminal{
+    background:var(--panel);
+    color:var(--teal);
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    padding:22px 24px;
+    border-radius:var(--radius);
+    margin-bottom:26px;
+    min-height:96px;
+    box-shadow:0 1px 0 var(--panel-line) inset;
+  }
+  .terminal .line{color:var(--text-on-dark);}
+  .terminal .prompt{color:var(--teal);}
+  .terminal .cursor{
+    display:inline-block; width:8px; height:15px;
+    background:var(--teal); margin-left:2px;
+    animation:blink 1s steps(1) infinite;
+    vertical-align:text-bottom;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero h1{font-size:40px; line-height:1.15; max-width:16ch; margin-bottom:16px;}
+  .hero p.lede{max-width:60ch; color:#2b3846; font-size:17px;}
+
+  .stat-row{
+    display:flex; gap:38px; flex-wrap:wrap;
+    margin-top:34px;
+  }
+  .stat{font-family:'JetBrains Mono',monospace;}
+  .stat .num{font-size:30px; color:var(--ink); font-weight:600;}
+  .stat .num .suffix{color:var(--teal);}
+  .stat .label{font-size:12px; color:var(--muted); margin-top:2px;}
+
+  /* ---- Skills ---- */
+  .skill-group{margin-bottom:24px;}
+  .skill-group:last-child{margin-bottom:0;}
+  .skill-group h3{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--muted);
+    margin-bottom:11px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:9px;}
+  .chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    padding:6px 11px;
+    background:var(--card);
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .chip.learning{
+    border-color:var(--amber);
+    color:#7a5a10;
+    background:#FBF2E1;
+  }
+  .chip.learning::after{content:" · learning"; opacity:.75;}
+
+  /* ---- Projects ---- */
+  details.project{
+    border-bottom:1px solid var(--line);
+    padding:20px 0;
+  }
+  details.project:first-child{padding-top:0;}
+  details.project summary{
+    list-style:none;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+  }
+  details.project summary::-webkit-details-marker{display:none;}
+  .proj-heading h3{font-size:19px; margin-bottom:4px;}
+  .proj-heading .proj-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .chevron{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--teal);
+    flex-shrink:0;
+    transform:rotate(0deg);
+    transition:transform .2s ease;
+    margin-top:4px;
+  }
+  details[open] .chevron{transform:rotate(90deg);}
+  .proj-body{padding-top:16px;}
+  .proj-body ul{margin:0 0 14px; padding-left:18px;}
+  .proj-body li{margin-bottom:7px; color:#2b3846;}
+  .badge-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    padding:4px 9px;
+    background:var(--panel);
+    color:var(--teal);
+  }
+
+  /* ---- Certifications ---- */
+  .cert{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:16px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cert:first-child{padding-top:0;}
+  .cert:last-child{border-bottom:none;}
+  .cert-title{font-size:15.5px; font-weight:600;}
+  .cert-issuer{color:var(--muted); font-size:13.5px; margin-top:2px;}
+  .cert-id{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .cert-right{
+    display:flex; flex-direction:column; align-items:flex-end; gap:8px;
+    flex-shrink:0;
+  }
+  .verify-link{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--teal);
+    text-decoration:none;
+    border-bottom:1px solid var(--teal);
+    white-space:nowrap;
+  }
+  .verify-link:hover{opacity:.7;}
+
+  /* ---- Education ---- */
+  .edu-row{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+  .edu-row h3{font-size:19px;}
+  .edu-sub{color:var(--muted); font-size:14px; margin-top:4px;}
+  .edu-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--teal);
+    text-align:right;
+  }
+  .cgpa{margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted);}
+
+  /* ---- Languages & soft skills ---- */
+  .split-two{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  .lang-row{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--line); font-size:14.5px;}
+  .lang-row .level{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal);}
+  .soft-list{display:flex; flex-wrap:wrap; gap:9px;}
+  .soft-list span{
+    font-size:13.5px; padding:6px 11px;
+    border:1px solid var(--line); color:var(--muted);
+  }
+
+  /* ---- Contact / footer ---- */
+  .contact-cta{
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;
+  }
+  .contact-cta h2{font-size:30px; max-width:14ch;}
+  .contact-links{display:flex; flex-direction:column; gap:10px;}
+  .contact-links a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    text-decoration:none;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:1px;
+    width:fit-content;
+  }
+  .contact-links a:hover{color:var(--teal); border-color:var(--teal);}
+  footer{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--muted);
+    padding:26px 0 10px;
+  }
+
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    :root{--sidebar-w:280px;}
+    main{padding:52px 34px 90px;}
+  }
+  @media (max-width:760px){
+    .sidebar{
+      transform:translateX(-100%);
+      width:82%;
+      max-width:340px;
+    }
+    .sidebar.open{transform:translateX(0);}
+    main{margin-left:0; padding:88px 22px 80px;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      position:fixed; top:0; left:0; right:0;
+      background:var(--panel); color:#fff;
+      padding:16px 20px; z-index:50;
+      font-family:'JetBrains Mono',monospace; font-size:13px;
+    }
+    .menu-btn{
+      background:none; border:1px solid var(--panel-line); color:#fff;
+      font-family:'JetBrains Mono',monospace; font-size:12px;
+      padding:7px 11px; cursor:pointer;
+    }
+    .scrim{
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:39;
+    }
+    .scrim.show{display:block;}
+    .hero h1{font-size:30px;}
+    .split-two{grid-template-columns:1fr;}
+    .contact-cta{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="mono-tag">MA / cv</span>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sidebar">Menu</button>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<div class="shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="mark">MA</div>
+    <h1 class="side-name">Maanya<br>Arora</h1>
+    <p class="side-role">Aspiring Data Analyst — turning raw data into decisions worth acting on.</p>
+
+    <div class="contact-rows">
+      <div class="contact-row">
+        <a href="mailto:maanyaaroraaa@gmail.com">maanyaaroraaa@gmail.com</a>
+        <button class="copy-btn" data-copy="maanyaaroraaa@gmail.com">Copy</button>
+      </div>
+      <div class="contact-row">
+        <a href="tel:+917011414221">+91 7011414221</a>
+        <button class="copy-btn" data-copy="+917011414221">Copy</button>
+      </div>
+      <div class="contact-row">
+        <a href="https://linkedin.com/in/maanya-arora-53600a435" target="_blank" rel="noopener">linkedin.com/in/maanya-arora</a>
+      </div>
+      <div class="contact-row">
+        <span style="color:var(--muted-on-dark)">New Delhi, India</span>
+      </div>
+    </div>
+
+    <nav class="toc" aria-label="Section navigation">
+      <a href="#summary"><span class="num">01</span>Summary</a>
+      <a href="#skills"><span class="num">02</span>Skills</a>
+      <a href="#projects"><span class="num">03</span>Projects</a>
+      <a href="#certifications"><span class="num">04</span>Certifications</a>
+      <a href="#education"><span class="num">05</span>Education</a>
+      <a href="#more"><span class="num">06</span>Languages &amp; strengths</a>
+      <a href="#contact"><span class="num">07</span>Contact</a>
+    </nav>
+    <div class="sidebar-footer">Last updated 2026</div>
+  </aside>
+
+  <main>
+
+    <section class="hero" id="summary">
+      <div class="terminal" id="terminal" aria-hidden="true"></div>
+      <p class="eyebrow"><span class="idx">01</span> — Summary</p>
+      <h1>Aspiring data analyst, seeking a role where analysis drives real decisions.</h1>
+      <p class="lede">Hands-on with Python, SQL, Excel, data cleaning, data wrangling, exploratory data analysis, and visualization. Certified by IBM, Microsoft, and the University of Michigan, with practical experience on real-world datasets. Currently looking for a Data Analyst internship to build on that foundation.</p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="num">65<span class="suffix">k+</span></div><div class="label">survey responses analyzed</div></div>
+        <div class="stat"><div class="num">100<span class="suffix">+</span></div><div class="label">variables explored</div></div>
+        <div class="stat"><div class="num">5</div><div class="label">certifications earned</div></div>
+        <div class="stat"><div class="num">8.73</div><div class="label">CGPA, year one</div></div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <p class="eyebrow"><span class="idx">02</span> — Skills</p>
+      <h2 class="sec-title">What I work with</h2>
+
+      <div class="skill-group">
+        <h3>Programming &amp; analysis</h3>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Pandas</span><span class="chip">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Data analysis</h3>
+        <div class="chip-row">
+          <span class="chip">Data Cleaning</span><span class="chip">Data Wrangling</span><span class="chip">EDA</span><span class="chip">Missing Value Handling</span><span class="chip">Duplicate Removal</span><span class="chip">Outlier Detection</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Visualization &amp; collection</h3>
+        <div class="chip-row">
+          <span class="chip">Matplotlib</span><span class="chip">Seaborn</span><span class="chip">Web Scraping</span><span class="chip">APIs</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Tools</h3>
+        <div class="chip-row">
+          <span class="chip">Microsoft Excel</span><span class="chip">Jupyter Notebook</span><span class="chip">VS Code</span><span class="chip">SQLite</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Additional</h3>
+        <div class="chip-row">
+          <span class="chip">Generative AI for Data Analytics</span>
+          <span class="chip learning">Power BI</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <p class="eyebrow"><span class="idx">03</span> — Projects</p>
+      <h2 class="sec-title">Recent work</h2>
+
+      <details class="project" open>
+        <summary>
+          <div class="proj-heading">
+            <h3>Data Analyst Capstone — Stack Overflow Developer Survey</h3>
+            <div class="proj-meta">2025 · Python, Pandas, data visualization</div>
+          </div>
+          <span class="chevron">▸</span>
+        </summary>
+        <div class="proj-body">
+          <div class="badge-row" style="margin-bottom:14px;">
+            <span class="badge">65,000+ responses</span>
+            <span class="badge">100+ variables</span>
+          </div>
+          <ul>
+            <li>Analyzed a large-scale developer survey dataset containing 65,000+ responses and 100+ variables.</li>
+            <li>Performed data cleaning, missing-value analysis, duplicate removal, and outlier detection.</li>
+            <li>Explored programming language, database, demographic, and compensation trends.</li>
+            <li>Used Python and data visualization techniques to identify patterns and generate analytical insights.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="project">
+        <summary>
+          <div class="proj-heading">
+            <h3>Netflix Data Analysis</h3>
+            <div class="proj-meta">2025 · Python, Pandas, EDA</div>
+          </div>
+          <span class="chevron">▸</span>
+        </summary>
+        <div class="proj-body">
+          <ul>
+            <li>Analyzed Netflix content data using Python and Pandas.</li>
+            <li>Performed data cleaning and exploratory data analysis to identify patterns and trends.</li>
+            <li>Created visualizations to communicate insights from the dataset.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section id="certifications">
+      <p class="eyebrow"><span class="idx">04</span> — Certifications</p>
+      <h2 class="sec-title">Verified credentials</h2>
+
+      <div class="cert">
+        <div>
+          <div class="cert-title">IBM Data Analyst Professional Certificate</div>
+          <div class="cert-issuer">IBM</div>
+          <div class="cert-id">ID: 6E7F3A2B8C4D <button class="copy-btn" data-copy="6E7F3A2B8C4D">Copy</button></div>
+        </div>
+        <div class="cert-right"><a class="verify-link" href="https://www.coursera.org/verify/6E7F3A2B8C4D" target="_blank" rel="noopener">Verify</a></div>
+      </div>
+
+      <div class="cert">
+        <div>
+          <div class="cert-title">Microsoft SQL Server Professional Certificate</div>
+          <div class="cert-issuer">Microsoft</div>
+          <div class="cert-id">ID: 4F2D8Q1E9BA7 <button class="copy-btn" data-copy="4F2D8Q1E9BA7">Copy</button></div>
+        </div>
+        <div class="cert-right"><a class="verify-link" href="https://www.coursera.org/verify/4F2D8Q1E9BA7" target="_blank" rel="noopener">Verify</a></div>
+      </div>
+
+      <div class="cert">
+        <div>
+          <div class="cert-title">Python for Everybody Specialization</div>
+          <div class="cert-issuer">University of Michigan</div>
+          <div class="cert-id">ID: 9A7E6F2D1C3B <button class="copy-btn" data-copy="9A7E6F2D1C3B">Copy</button></div>
+        </div>
+        <div class="cert-right"><a class="verify-link" href="https://www.coursera.org/verify/9A7E6F2D1C3B" target="_blank" rel="noopener">Verify</a></div>
+      </div>
+
+      <div class="cert">
+        <div>
+          <div class="cert-title">Generative AI: Enhance Your Data Analytics Career</div>
+          <div class="cert-issuer">IBM</div>
+          <div class="cert-id">ID: 2B4C6D8E7F9A <button class="copy-btn" data-copy="2B4C6D8E7F9A">Copy</button></div>
+        </div>
+        <div class="cert-right"><a class="verify-link" href="https://www.coursera.org/verify/2B4C6D8E7F9A" target="_blank" rel="noopener">Verify</a></div>
+      </div>
+
+      <div class="cert">
+        <div>
+          <div class="cert-title">Deloitte Data Analytics Job Simulation</div>
+          <div class="cert-issuer">Forage</div>
+          <div class="cert-id">ID: 7D9E3F1C6B2A <button class="copy-btn" data-copy="7D9E3F1C6B2A">Copy</button></div>
+        </div>
+        <div class="cert-right"><a class="verify-link" href="https://www.theforage.com/verify/7D9E3F1C6B2A" target="_blank" rel="noopener">Verify</a></div>
+      </div>
+    </section>
+
+    <section id="education">
+      <p class="eyebrow"><span class="idx">05</span> — Education</p>
+      <h2 class="sec-title">Education</h2>
+      <div class="edu-row">
+        <div>
+          <h3>Bachelor of Business Administration (BBA)</h3>
+          <div class="edu-sub">Amity University — Online / ODL</div>
+        </div>
+        <div class="edu-meta">2024 — Present<br>First year completed</div>
+      </div>
+      <div class="cgpa">CGPA: 8.73 / 10</div>
+    </section>
+
+    <section id="more">
+      <p class="eyebrow"><span class="idx">06</span> — Languages &amp; strengths</p>
+      <h2 class="sec-title">Languages &amp; soft skills</h2>
+      <div class="split-two">
+        <div>
+          <h3 style="font-family:'Inter',sans-serif; font-size:14px; color:var(--muted); margin-bottom:11px;">Languages</h3>
+          <div class="lang-row"><span>English</span><span class="level">Fluent</span></div>
+          <div class="lang-row"><span>Hindi</span><span class="level">Native</span></div>
+        </div>
+        <div>
+          <h3 style="font-family:'Inter',sans-serif; font-size:14px; color:var(--muted); margin-bottom:11px;">Soft skills</h3>
+          <div class="soft-list">
+            <span>Analytical Thinking</span><span>Problem Solving</span><span>Communication</span><span>Team Collaboration</span><span>Time Management</span><span>Adaptability</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <p class="eyebrow"><span class="idx">07</span> — Contact</p>
+      <div class="contact-cta">
+        <h2>Let's talk about your data.</h2>
+        <div class="contact-links">
+          <a href="mailto:maanyaaroraaa@gmail.com">maanyaaroraaa@gmail.com</a>
+          <a href="tel:+917011414221">+91 7011414221</a>
+          <a href="https://linkedin.com/in/maanya-arora-53600a435" target="_blank" rel="noopener">linkedin.com/in/maanya-arora</a>
+        </div>
+      </div>
+      <footer>Maanya Arora — New Delhi, India</footer>
+    </section>
+
+  </main>
+</div>
+
+<div class="sr-only" role="status" aria-live="polite" id="liveRegion"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- Terminal typing hero ---- */
+  var term = document.getElementById('terminal');
+  var lines = [
+    {p:'>', t:'SELECT name, role FROM analysts WHERE focus = \'insight\';'},
+    {p:'#', t:'Maanya Arora — Aspiring Data Analyst, New Delhi'}
+  ];
+  var li = 0, ci = 0;
+  function typeLine(){
+    if(li >= lines.length){ return; }
+    var row = lines[li];
+    var el = document.createElement('div');
+    el.className = 'line';
+    var promptSpan = document.createElement('span');
+    promptSpan.className = 'prompt';
+    promptSpan.textContent = row.p + ' ';
+    el.appendChild(promptSpan);
+    var textNode = document.createTextNode('');
+    el.appendChild(textNode);
+    term.appendChild(el);
+
+    (function step(){
+      if(ci < row.t.length){
+        textNode.textContent += row.t.charAt(ci);
+        ci++;
+        setTimeout(step, 14 + Math.random()*18);
+      } else {
+        ci = 0; li++;
+        if(li < lines.length){ setTimeout(typeLine, 260); }
+        else {
+          var cursor = document.createElement('span');
+          cursor.className = 'cursor';
+          term.appendChild(cursor);
+        }
+      }
+    })();
+  }
+  if(term){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      lines.forEach(function(row){
+        var el = document.createElement('div');
+        el.className = 'line';
+        el.textContent = row.p + ' ' + row.t;
+        term.appendChild(el);
+      });
+    } else {
+      typeLine();
+    }
+  }
+
+  /* ---- Copy to clipboard ---- */
+  var live = document.getElementById('liveRegion');
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var val = btn.getAttribute('data-copy');
+      var done = function(){
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        live.textContent = val + ' copied to clipboard';
+        setTimeout(function(){
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1400);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(val).then(done).catch(function(){ fallbackCopy(val); done(); });
+      } else {
+        fallbackCopy(val);
+        done();
+      }
+    });
+  });
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  /* ---- Animated stat counters ---- */
+  var stats = document.querySelectorAll('.stat .num');
+  var statTargets = [
+    {el: stats[0], to: 65, suffix: 'k+'},
+    {el: stats[1], to: 100, suffix: '+'},
+    {el: stats[2], to: 5, suffix: ''},
+    {el: stats[3], to: 8.73, suffix: '', decimal:true}
+  ];
+  var counted = false;
+  function runCounters(){
+    if(counted) return;
+    counted = true;
+    statTargets.forEach(function(s){
+      if(!s.el) return;
+      var start = 0;
+      var duration = 900;
+      var startTime = null;
+      function frame(ts){
+        if(!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = start + (s.to - start) * eased;
+        var display = s.decimal ? current.toFixed(2) : Math.round(current);
+        s.el.innerHTML = display + (s.suffix ? '<span class="suffix">'+s.suffix+'</span>' : '');
+        if(progress < 1){ requestAnimationFrame(frame); }
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+  var statRow = document.querySelector('.stat-row');
+  if(statRow){
+    if('IntersectionObserver' in window){
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ runCounters(); obs.disconnect(); }
+        });
+      }, {threshold:0.4});
+      obs.observe(statRow);
+    } else {
+      runCounters();
+    }
+  }
+
+  /* ---- Active nav highlighting ---- */
+  var navLinks = document.querySelectorAll('nav.toc a');
+  var sections = Array.prototype.map.call(navLinks, function(a){
+    return document.querySelector(a.getAttribute('href'));
+  });
+  function setActive(){
+    var pos = window.scrollY + 140;
+    var current = 0;
+    sections.forEach(function(sec, i){
+      if(sec && sec.offsetTop <= pos){ current = i; }
+    });
+    navLinks.forEach(function(a, i){
+      a.classList.toggle('active', i === current);
+    });
+  }
+  document.addEventListener('scroll', setActive, {passive:true});
+  setActive();
+
+  /* ---- Mobile sidebar toggle ---- */
+  var sidebar = document.getElementById('sidebar');
+  var menuBtn = document.getElementById('menuBtn');
+  var scrim = document.getElementById('scrim');
+  function closeMenu(){
+    sidebar.classList.remove('open');
+    scrim.classList.remove('show');
+    if(menuBtn) menuBtn.setAttribute('aria-expanded','false');
+  }
+  function openMenu(){
+    sidebar.classList.add('open');
+    scrim.classList.add('show');
+    if(menuBtn) menuBtn.setAttribute('aria-expanded','true');
+  }
+  if(menuBtn){
+    menuBtn.addEventListener('click', function(){
+      sidebar.classList.contains('open') ? closeMenu() : openMenu();
+    });
+  }
+  if(scrim){ scrim.addEventListener('click', closeMenu); }
+  navLinks.forEach(function(a){
+    a.addEventListener('click', function(){ closeMenu(); });
+  });
+
+})();
+</script>
+</body>
+</html>
